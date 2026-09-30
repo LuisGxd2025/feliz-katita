@@ -1,1 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Para Katita ❤️</title>
 
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;min-height:100vh;overflow:hidden;
+font-family:Georgia,serif;color:white;
+background:radial-gradient(circle at top,#9b2865,#350b3d 60%,#09030d);
+display:flex;align-items:center;justify-content:center;text-align:center
+}
+.card{
+width:92%;max-width:680px;padding:35px 24px;
+border-radius:30px;background:#ffffff15;
+backdrop-filter:blur(14px);
+border:1px solid #ffffff33;
+box-shadow:0 0 60px #ff4f9a44;
+position:relative;z-index:5
+}
+.hidden{display:none}
+.emoji{font-size:60px;animation:pulse 1.3s infinite}
+.small{font:14px Arial,sans-serif;opacity:.85}
+h1{
+font-size:clamp(42px,11vw,75px);
+margin:12px 0;color:#ffd8e8;
+text-shadow:0 0 25px #ff70a8
+}
+h2{font-size:clamp(30px,8vw,52px);margin:8px 0 25px}
+p{
+font:18px Arial,sans-serif;
+line-height:1.7;color:#ffeaf3
+}
+button{
+border:0;border-radius:50px;padding:16px 30px;
+margin-top:20px;background:linear-gradient(90deg,#ff4f8b,#ff8eb5);
+color:white;font-size:18px;font-weight:bold;
+box-shadow:0 8px 25px #0006
+}
+.float{
+position:fixed;bottom:-60px;font-size:30px;
+animation:rise linear forwards;z-index:1
+}
+.conf{
+position:fixed;top:-20px;width:9px;height:18px;
+animation:fall linear forwards
+}
+.star{
+position:fixed;width:3px;height:3px;background:white;
+border-radius:50%;animation:twinkle 2s infinite alternate
+}
+@keyframes rise{
+to{transform:translateY(-115vh) rotate(360deg);opacity:0}
+}
+@keyframes fall{
+to{transform:translateY(110vh) rotate(720deg);opacity:0}
+}
+@keyframes pulse{
+50%{transform:scale(1.2)}
+}
+@keyframes twinkle{
+to{opacity:.15;transform:scale(.5)}
+}
+</style>
+</head>
+
+<body>
+
+<div id="stars"></div>
+
+<div class="card" id="inicio">
+
+<div class="emoji">🎁</div>
+
+<div class="small">
+KATITA, TENGO UNA SORPRESA PARA TI
+</div>
+
+<h1>
+No abras esto<br>
+si no quieres sonreír ❤️
+</h1>
+
+<button onclick="abrir()">
+✨ ABRIR MI SORPRESA
+</button>
+
+</div>
+
+
+<div class="card hidden" id="sorpresa">
+
+<div class="emoji">🎂❤️</div>
+
+<div class="small">
+HOY ES UN DÍA MUY ESPECIAL
+</div>
+
+<h1>
+¡Feliz Cumpleaños!
+</h1>
+
+<h2>
+Katita ✨
+</h2>
+
+<p>
+Hoy quiero recordarte algo muy especial:
+<br><br>
+
+<strong>Tu vida merece ser celebrada. ❤️</strong>
+<br><br>
+
+Deseo que este nuevo año llegue lleno de
+sonrisas, momentos inolvidables, sueños cumplidos
+y muchas razones para ser feliz.
+<br><br>
+
+Que nunca te falten motivos para seguir soñando,
+fuerzas para alcanzar lo que deseas y personas
+que sepan valorar lo maravillosa que eres.
+<br><br>
+
+<strong>
+Feliz cumpleaños, Katita. 💖
+</strong>
+<br><br>
+
+Que la vida te regale muchísimas cosas bonitas.
+</p>
+
+<button onclick="final()">
+💗 UNA ÚLTIMA SORPRESA
+</button>
+
+<p id="final"></p>
+
+</div>
+
+
+<script>
+
+function musica(){
+
+let C=window.AudioContext||window.webkitAudioContext;
+let c=new C();
+
+let notas=[
+261.63,261.63,293.66,261.63,349.23,329.63,
+261.63,261.63,293.66,261.63,392,349.23
+];
+
+let t=c.currentTime+.1;
+
+notas.forEach((n,i)=>{
+
+let o=c.createOscillator();
+let g=c.createGain();
+
+o.frequency.value=n;
+o.type="triangle";
+
+g.gain.setValueAtTime(.001,t+i*.42);
+g.gain.linearRampToValueAtTime(.06,t+i*.42+.03);
+g.gain.exponentialRampToValueAtTime(.001,t+i*.42+.35);
+
+o.connect(g);
+g.connect(c.destination);
+
+o.start(t+i*.42);
+o.stop(t+i*.42+.4);
+
+});
+
+}
+
+
+function abrir(){
+
+document.getElementById("inicio").classList.add("hidden");
+
+document.getElementById("sorpresa").classList.remove("hidden");
+
+musica();
+
+confeti();
+
+setInterval(corazon,700);
+
+}
+
+
+function corazon(){
+
+let x=document.createElement("div");
+
+x.className="float";
+
+x.innerHTML=["❤️","💕","💖","✨","🌸","🎈"]
+[Math.floor(Math.random()*6)];
+
+x.style.left=Math.random()*100+"vw";
+
+x.style.animationDuration=
+(5+Math.random()*5)+"s";
+
+document.body.appendChild(x);
+
+setTimeout(()=>x.remove(),10000);
+
+}
+
+
+function confeti(){
+
+for(let i=0;i<80;i++){
+
+let x=document.createElement("div");
+
+x.className="conf";
+
+x.style.left=Math.random()*100+"vw";
+
+x.style.background=
+"hsl("+Math.random()*360+",90%,70%)";
+
+x.style.animationDuration=
+(3+Math.random()*4)+"s";
+
+x.style.animationDelay=
+Math.random()*2+"s";
+
+document.body.appendChild(x);
+
+setTimeout(()=>x.remove(),8000);
+
+}
+
+}
+
+
+function final(){
+
+document.getElementById("final").innerHTML=
+"💖 <strong>Katita...</strong><br><br>"+
+"Espero que hoy sonrías mucho, "+
+"que disfrutes cada momento y que "+
+"este nuevo año de vida esté lleno "+
+"de momentos hermosos.<br><br>"+
+"🎂✨❤️<br><br>"+
+"<strong>¡FELIZ CUMPLEAÑOS!</strong>";
+
+confeti();
+
+}
+
+
+for(let i=0;i<45;i++){
+
+let s=document.createElement("div");
+
+s.className="star";
+
+s.style.left=Math.random()*100+"vw";
+s.style.top=Math.random()*100+"vh";
+s.style.animationDelay=Math.random()*2+"s";
+
+document.getElementById("stars").appendChild(s);
+
+}
+
+</script>
+
+</body>
+  </html>
